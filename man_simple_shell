@@ -1,4 +1,4 @@
-.TH SHELLBY 1 "August 2022" "ALX School" "0x16. C - Simple Shell"
+.TH SHELLBY 1 "APRIL 2023" "ALX SWE" "0x16. C - Simple Shell"
 .SH NAME
 .B shellby\fR \- simple UNIX command interpreter
 .SH SYNOPSIS
