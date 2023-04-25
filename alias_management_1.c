@@ -78,23 +78,41 @@ char *get_alias( program_data *data, char *name)
  * @data: struct containing program data
  * Return: 0 on success, or a non-zero value if there is an error
  */
-int set_alias(char *alias_string,  program_data *data)
+int set_alias(char *alias_string, program_data *data)
 {
 	int i, j;
 	char buffer[250] = {'0'}, *temp = NULL;
 
-	// validate arguments
-	if (alias_string == NULL ||  data->alias_list == NULL)
+	/* validate the arguments */
+	if (alias_string == NULL || data->alias_list == NULL)
 		return (1);
+	/* Iterates alias to find = char */
+	for (i = 0; alias_string[i]; i++)
+		if (alias_string[i] != '=')
+			buffer[i] = alias_string[i];
+		else
+		{ /* search if the value of the alias is another alias */
+			temp = get_alias(data, alias_string + i + 1);
+			break;
+		}
 
-	// copy the alias name to the buffer
-	for (i = 0; alias_string[i] != '=' && alias_string[i] != '\0'; i++)
-		buffer[i] = alias_string[i];
+	/* Iterates through the alias list and check for coincidence of the varname */
+	for (j = 0; data->alias_list[j]; j++)
+		if (str_compare(buffer, data->alias_list[j], i) &&
+			data->alias_list[j][i] == '=')
+		{ /* if the alias alredy exist */
+			free(data->alias_list[j]);
+			break;
+		}
 
-	// check if the alias value is another alias
-	if (alias_string[i] == '=')
-		temp = get_alias(data, alias_string + i + 1);
-
-	// search for the alias in the list
-	for (j = 0
-
+	/* add the alias */
+	if (temp)
+	{ /* if the alias already exist */
+		buffer_add(buffer, "=");
+		buffer_add(buffer, temp);
+		data->alias_list[j] = str_duplicate(buffer);
+	}
+	else /* if the alias does not exist */
+		data->alias_list[j] = str_duplicate(alias_string);
+	return (0);
+}
