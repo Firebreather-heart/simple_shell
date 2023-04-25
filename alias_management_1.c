@@ -6,7 +6,7 @@
  * @alias: name of the specific alias to be printed, or NULL to print all aliases
  * Return: 0 on success, or a non-zero value if there is an error
  */
-int print_alias( program_data *data, char *alias)
+int print_alias(program_data *data, char *alias)
 {
 	int i, j, alias_length;
 	char buffer[250] = {'\0'};
@@ -16,11 +16,10 @@ int print_alias( program_data *data, char *alias)
 		alias_length = str_length(alias);
 		for (i = 0; data->alias_list[i]; i++)
 		{
-			// if alias is NULL or if the current alias matches the requested alias
-			if (!alias || (str_compare(data->alias_list[i], alias, alias_length)
-				&&	data->alias_list[i][alias_length] == '='))
+			/*if alias is NULL or if the current alias matches the requested alias*/
+			if (!alias || (str_compare(data->alias_list[i], alias, alias_length) && data->alias_list[i][alias_length] == '='))
 			{
-				// copy the alias name to the buffer
+				/*copy the alias name to the buffer*/
 				for (j = 0; data->alias_list[i][j]; j++)
 				{
 					buffer[j] = data->alias_list[i][j];
@@ -29,7 +28,7 @@ int print_alias( program_data *data, char *alias)
 				}
 				buffer[j + 1] = '\0';
 
-				// add quotes around the alias value and print the alias
+				/* add quotes around the alias value and print the alias */
 				buffer_add(buffer, "'");
 				buffer_add(buffer, data->alias_list[i] + j + 1);
 				buffer_add(buffer, "'\n");
@@ -47,11 +46,11 @@ int print_alias( program_data *data, char *alias)
  * @name: name of the alias to retrieve
  * Return: a pointer to the alias value, or NULL if the alias does not exist
  */
-char *get_alias( program_data *data, char *name)
+char *get_alias(program_data *data, char *name)
 {
 	int i, alias_length;
 
-	// validate arguments
+	/* validate arguments */
 	if (name == NULL || data->alias_list == NULL)
 		return (NULL);
 
@@ -59,16 +58,16 @@ char *get_alias( program_data *data, char *name)
 
 	for (i = 0; data->alias_list[i]; i++)
 	{
-		// if the current alias matches the requested alias
+		/* if the current alias matches the requested alias */
 		if (str_compare(name, data->alias_list[i], alias_length) &&
 			data->alias_list[i][alias_length] == '=')
 		{
-			// return the alias value
+			/* return the alias value */
 			return (data->alias_list[i] + alias_length + 1);
 		}
 	}
 
-	// the alias does not exist
+	/* the alias does not exist */
 	return (NULL);
 }
 
