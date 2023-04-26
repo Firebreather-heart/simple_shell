@@ -2,8 +2,8 @@
 
 /**
  * print_alias - print a specific alias or all aliases
- * @data: struct containing program data
- * @alias: name of the specific alias to be printed, or NULL to print all aliases
+ * @data: struct containing the program data
+ * @alias: name of the specific alias to be printed
  * Return: 0 on success, or a non-zero value if there is an error
  */
 int print_alias(program_data *data, char *alias)
